@@ -16,5 +16,9 @@
     "mongoose": "^7.2.2",
     "morgan": "~1.9.1",
     "pg": "^8.11.0"
-  }
+  },
+  "main": "app.js",
+  "repository": "https://github.com/syn22/travel-be.git",
+  "author": "syn22 <syn22.eth@gmail.com>",
+  "license": "MIT"
 }
