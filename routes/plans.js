@@ -18,7 +18,7 @@ router.get('/', async (req, res) => {
       FROM plans
       LEFT JOIN plan_places ON plans.id = plan_places.plan_id AND plan_places.is_deleted = false
       LEFT JOIN places ON plan_places.place_id = places.id
-      WHERE plans.user_id = $1
+      WHERE plans.user_id = $1 AND plans.is_deleted = false
       `;
       const result = await pgPool.query(query, [user_id]);
   
