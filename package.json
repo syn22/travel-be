@@ -11,6 +11,7 @@
     "debug": "~2.6.9",
     "dotenv": "^16.0.3",
     "express": "~4.16.1",
+    "get-port": "^7.0.0",
     "http-errors": "~1.6.3",
     "jade": "~1.11.0",
     "mongoose": "^7.2.2",
