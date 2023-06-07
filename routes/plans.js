@@ -12,13 +12,13 @@ router.get('/', async (req, res) => {
   
     try {
       const query = `
-        SELECT plans.id AS plan_id, plans.name AS plan_name,
-          places.id AS place_id, places.name AS place_name,
-          places.longitude, places.latitude
-        FROM plans
-        LEFT JOIN plan_places ON plans.id = plan_places.plan_id
-        LEFT JOIN places ON plan_places.place_id = places.id
-        WHERE plans.user_id = $1 AND plan_places.is_deleted = false
+      SELECT plans.id AS plan_id, plans.name AS plan_name,
+      places.id AS place_id, places.name AS place_name,
+      places.longitude, places.latitude
+      FROM plans
+      LEFT JOIN plan_places ON plans.id = plan_places.plan_id AND plan_places.is_deleted = false
+      LEFT JOIN places ON plan_places.place_id = places.id
+      WHERE plans.user_id = $1
       `;
       const result = await pgPool.query(query, [user_id]);
   
