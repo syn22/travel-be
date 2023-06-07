@@ -48,7 +48,7 @@ router.post('/plan', express.json(), async (req, res) => {
     const placeQuery = `
       SELECT id
       FROM places
-      WHERE name = $1 AND is_deleted = false;
+      WHERE name = $1;
     `;
     const placeResult = await pgPool.query(placeQuery, [place_name]);
 
