@@ -9,6 +9,9 @@ const pgPool = new Pool({
   database: process.env.POSTGRES_DATABASE,
   password: process.env.POSTGRES_PASSWORD,
   port: process.env.POSTGRES_PORT,
+  ssl: {
+    ca: process.env.POSTGRES_CA_CERT,
+  },
 });
 
 // MongoDB connection settings
