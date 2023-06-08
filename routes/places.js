@@ -13,19 +13,28 @@ router.get('/', async (req, res) => {
 });
 
 router.post('/', express.json(), async (req, res) => {
-  const { name, type, longitude, latitude } = req.body;
+  const { place } = req.body;
 
-  if (!name || !type || !longitude || !latitude) {
+  if (!place || !place.name || !place.geometry || !place.types || !place.photos || !place.current_opening_hours) {
     return res.status(400).json({ error: 'Missing required fields' });
   }
 
+  // Extract the necessary data
+  const name = place.name;
+  const type = place.types[0]; // Select the first type for the 'type' field
+  const types = place.types; // All types
+  const longitude = place.geometry.location.lng;
+  const latitude = place.geometry.location.lat;
+  const photo_url = place.photos.map(photo => photo.html_attributions[0]); // Getting all photo urls
+  const opening_hours = place.current_opening_hours.weekday_text; // Assuming opening_hours is an array
+
   const query = `
-    INSERT INTO places (name, type, longitude, latitude)
-    VALUES ($1, $2, $3, $4)
+    INSERT INTO places (name, type, types, longitude, latitude, photo_url, opening_hours)
+    VALUES ($1, $2, $3, $4, $5, $6, $7)
     RETURNING *;
   `;
 
-  const values = [name, type, longitude, latitude];
+  const values = [name, type, types, longitude, latitude, photo_url, opening_hours];
 
   try {
     const result = await pgPool.query(query, values);
