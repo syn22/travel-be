@@ -14,7 +14,7 @@ router.get('/', async (req, res) => {
       const query = `
       SELECT plans.id AS plan_id, plans.name AS plan_name,
       places.id AS place_id, places.name AS place_name,
-      places.longitude, places.latitude
+      places.longitude, places.latitude, places.type AS place_type
       FROM plans
       LEFT JOIN plan_places ON plans.id = plan_places.plan_id AND plan_places.is_deleted = false
       LEFT JOIN places ON plan_places.place_id = places.id
@@ -25,7 +25,7 @@ router.get('/', async (req, res) => {
       // Group places by plan_id
       const plans = {};
       result.rows.forEach((row) => {
-        const { plan_id, plan_name, place_id, place_name, longitude, latitude } = row;
+        const { plan_id, plan_name, place_id, place_name, place_type, longitude, latitude } = row;
         if (!plans[plan_id]) {
           plans[plan_id] = {
             plan_id,
@@ -33,7 +33,7 @@ router.get('/', async (req, res) => {
             places: [],
           };
         }
-        plans[plan_id].places.push({ place_id, place_name, longitude, latitude });
+        plans[plan_id].places.push({ place_id, place_name, longitude, latitude, place_type });
       });
   
       // Convert plans object to an array of objects
